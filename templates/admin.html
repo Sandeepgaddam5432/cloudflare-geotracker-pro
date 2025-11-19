@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - GeoTracker Pro</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--surface);
+            border-radius: 16px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--surface-light);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        #map {
+            height: 500px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .locations-table {
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--surface-light);
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        tr {
+            border-bottom: 1px solid var(--surface-light);
+        }
+
+        tr:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .coords {
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+        }
+
+        .refresh-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>👨‍💼 Admin Dashboard</h1>
+        <p style="color: var(--text-muted); margin-top: 10px;">Real-time Location Monitoring</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-label">Total Locations</div>
+            <div class="stat-value">{{ locations|length }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Last Update</div>
+            <div class="stat-value" style="font-size: 18px;">
+                {% if locations %}
+                    {{ locations[-1].timestamp.split('T')[1].split('.')[0] }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Active Today</div>
+            <div class="stat-value" style="font-size: 24px;">
+                <span class="badge badge-success">{{ locations|length }}</span>
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="location.reload()">🔄 Refresh Data</button>
+
+    {% if locations %}
+    <div id="map"></div>
+
+    <div class="locations-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Coordinates</th>
+                    <th>Accuracy</th>
+                    <th>Device</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loc in locations|reverse %}
+                <tr>
+                    <td>{{ loc.timestamp.split('T')[0] }}<br>
+                        <small style="color: var(--text-muted);">{{ loc.timestamp.split('T')[1].split('.')[0] }}</small>
+                    </td>
+                    <td class="coords">
+                        {{ "%.6f"|format(loc.latitude) }},<br>{{ "%.6f"|format(loc.longitude) }}
+                    </td>
+                    <td>{{ "%.1f"|format(loc.accuracy) }}m</td>
+                    <td>
+                        {{ loc.device_info.browser }}<br>
+                        <small style="color: var(--text-muted);">{{ loc.device_info.os }}</small>
+                    </td>
+                    <td>{{ loc.device_info.ip_address }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="no-data">
+        <div style="font-size: 64px; margin-bottom: 20px;">📍</div>
+        <h2>No location data yet</h2>
+        <p style="margin-top: 10px;">Locations will appear here once users share them</p>
+    </div>
+    {% endif %}
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        {% if locations %}
+        // Initialize map
+        const latestLocation = {{ locations[-1]|tojson }};
+        const map = L.map('map').setView(
+            [latestLocation.latitude, latestLocation.longitude], 
+            13
+        );
+
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add markers for all locations
+        const locations = {{ locations|tojson }};
+        locations.forEach((loc, index) => {
+            const isLatest = index === locations.length - 1;
+            const marker = L.marker([loc.latitude, loc.longitude], {
+                icon: L.divIcon({
+                    className: 'custom-marker',
+                    html: isLatest ? '📍' : '•',
+                    iconSize: [30, 30]
+                })
+            });
+
+            marker.addTo(map);
+            
+            // Add popup
+            const popupContent = `
+                <div style="font-family: system-ui;">
+                    <strong>${isLatest ? '🔴 Latest Location' : 'Previous Location'}</strong><br>
+                    <small>${loc.timestamp.split('T')[0]} ${loc.timestamp.split('T')[1].split('.')[0]}</small><br><br>
+                    <strong>Coordinates:</strong><br>
+                    ${loc.latitude.toFixed(6)}, ${loc.longitude.toFixed(6)}<br><br>
+                    <strong>Device:</strong> ${loc.device_info.browser} on ${loc.device_info.os}<br>
+                    <strong>Accuracy:</strong> ${loc.accuracy.toFixed(1)}m
+                </div>
+            `;
+            marker.bindPopup(popupContent);
+
+            if (isLatest) {
+                marker.openPopup();
+            }
+        });
+
+        // Auto-refresh every 30 seconds
+        setTimeout(() => location.reload(), 30000);
+        {% endif %}
+    </script>
+</body>
+</html>
