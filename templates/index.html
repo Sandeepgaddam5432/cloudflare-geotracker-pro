@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoTracker Pro - Location Sharing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--surface-light);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .status-card {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--surface-light);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--surface-light);
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .status-value {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .coordinates {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .coord-item {
+            margin-bottom: 12px;
+        }
+
+        .coord-label {
+            color: var(--text-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .coord-value {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .badge-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📍</div>
+            <h1>GeoTracker Pro</h1>
+            <p class="subtitle">Secure Location Sharing System</p>
+        </div>
+
+        <div id="alert" class="alert"></div>
+
+        <div class="status-card">
+            <div class="status-item">
+                <span class="status-label">Status</span>
+                <span class="status-value" id="status">
+                    <span class="badge badge-error">Not Sharing</span>
+                </span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Browser</span>
+                <span class="status-value" id="browser">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Operating System</span>
+                <span class="status-value" id="os">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Screen</span>
+                <span class="status-value" id="screen">-</span>
+            </div>
+        </div>
+
+        <button id="shareBtn" class="btn btn-primary">
+            <span>📡</span>
+            <span>Share My Location</span>
+        </button>
+
+        <div id="coordinates" class="coordinates">
+            <div class="coord-item">
+                <div class="coord-label">Latitude</div>
+                <div class="coord-value" id="lat">-</div>
+            </div>
+            <div class="coord-item">
+                <div class="coord-label">Longitude</div>
+                <div class="coord-value" id="lng">-</div>
+            </div>
+            <div class="coord-item">
+                <div class="coord-label">Accuracy</div>
+                <div class="coord-value" id="accuracy">-</div>
+            </div>
+            <div class="coord-item">
+                <div class="coord-label">Timestamp</div>
+                <div class="coord-value" id="timestamp">-</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🔒 Your location is sent securely to the server</p>
+            <p style="margin-top: 8px; font-size: 12px;">© 2025 GeoTracker Pro | Built with Flask</p>
+        </div>
+    </div>
+
+    <script>
+        // Detect device info
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            let browser = 'Unknown';
+            let os = 'Unknown';
+
+            // Detect browser
+            if (ua.indexOf('Firefox') > -1) browser = 'Firefox';
+            else if (ua.indexOf('Chrome') > -1) browser = 'Chrome';
+            else if (ua.indexOf('Safari') > -1) browser = 'Safari';
+            else if (ua.indexOf('Edge') > -1) browser = 'Edge';
+            else if (ua.indexOf('Opera') > -1) browser = 'Opera';
+
+            // Detect OS
+            if (ua.indexOf('Windows') > -1) os = 'Windows';
+            else if (ua.indexOf('Mac') > -1) os = 'macOS';
+            else if (ua.indexOf('Linux') > -1) os = 'Linux';
+            else if (ua.indexOf('Android') > -1) os = 'Android';
+            else if (ua.indexOf('iOS') > -1) os = 'iOS';
+
+            return { browser, os };
+        }
+
+        // Update device info on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const { browser, os } = getDeviceInfo();
+            document.getElementById('browser').textContent = browser;
+            document.getElementById('os').textContent = os;
+            document.getElementById('screen').textContent = 
+                `${screen.width}x${screen.height}`;
+        });
+
+        // Show alert
+        function showAlert(message, type = 'success') {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // Share location
+        document.getElementById('shareBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('shareBtn');
+            
+            if (!navigator.geolocation) {
+                showAlert('❌ Geolocation is not supported by your browser', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loader"></div><span>Getting Location...</span>';
+
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { browser, os } = getDeviceInfo();
+                    const locationData = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        accuracy: position.coords.accuracy,
+                        altitude: position.coords.altitude,
+                        altitudeAccuracy: position.coords.altitudeAccuracy,
+                        heading: position.coords.heading,
+                        speed: position.coords.speed,
+                        browser: browser,
+                        os: os,
+                        screen_width: screen.width,
+                        screen_height: screen.height,
+                        language: navigator.language,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                    };
+
+                    try {
+                        const response = await fetch('/api/location', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(locationData)
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            showAlert('✅ Location shared successfully!', 'success');
+                            
+                            // Update status
+                            document.getElementById('status').innerHTML = 
+                                '<span class="badge badge-success">Active</span>';
+                            
+                            // Show coordinates
+                            document.getElementById('coordinates').style.display = 'block';
+                            document.getElementById('lat').textContent = 
+                                position.coords.latitude.toFixed(6);
+                            document.getElementById('lng').textContent = 
+                                position.coords.longitude.toFixed(6);
+                            document.getElementById('accuracy').textContent = 
+                                `${position.coords.accuracy.toFixed(2)} meters`;
+                            document.getElementById('timestamp').textContent = 
+                                new Date().toLocaleString();
+                        } else {
+                            showAlert('❌ Failed to send location: ' + result.message, 'error');
+                        }
+                    } catch (error) {
+                        showAlert('❌ Error: ' + error.message, 'error');
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = '<span>📡</span><span>Share My Location</span>';
+                    }
+                },
+                (error) => {
+                    let errorMsg = 'Location access denied';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMsg = 'Please allow location access in your browser settings';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMsg = 'Location information unavailable';
+                            break;
+                        case error.TIMEOUT:
+                            errorMsg = 'Location request timed out';
+                            break;
+                    }
+                    showAlert('❌ ' + errorMsg, 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>📡</span><span>Share My Location</span>';
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        });
+    </script>
+</body>
+</html>
